@@ -1,0 +1,36 @@
+{
+  "name": "sakha",
+  "version": "1.0.0",
+  "description": "Sakha is a restaurant management application having multiple functionalities. Which makes Sakha an extra ordinary tool to ease out my dream.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rohit679/sakha.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rohit679/sakha/issues"
+  },
+  "homepage": "https://github.com/rohit679/sakha#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.2",
+    "express": "^4.18.2",
+    "http-errors-lite": "^2.0.2",
+    "http-status-codes": "^2.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3",
+    "prettier": "^3.2.4"
+  }
+}

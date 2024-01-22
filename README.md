@@ -15,7 +15,7 @@ Sakha is a restaurant management application having multiple functionalities. Wh
   - User Logout
 - Authorization/Role management
   - Role Creation
-  - Role List/Filter/Search
+  - Role List/Filter/Search 
   - Role Edit/Delete
 - Outlet Management
   - Outlet Creation
