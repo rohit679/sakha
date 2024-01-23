@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-import { getSecret } from "../../configuration";
+import { getSecret } from "../../configuration.js";
 
 export const connectMongo = async () => {
   try {
-    const mongoUrl = getSecret.mongoUrl;
+    const mongoUrl = getSecret().mongoUrl;
     await mongoose.connect(mongoUrl, {
       dbName: 'sakha'
     });
