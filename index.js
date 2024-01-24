@@ -2,6 +2,7 @@ import { config } from "dotenv";
 import { createApp, finishApp } from "./app.js";
 import { getSecret } from "./configuration.js";
 import { connectMongo } from "./src/utils/connect-db.js";
+import roleModule from "./src/modules/roles/index.js";
 
 (async () => {
   config({ path: '.env' });
@@ -15,6 +16,7 @@ import { connectMongo } from "./src/utils/connect-db.js";
     res.send("App is healthy 💚");
   });
 
+  roleModule.init(app);
   finishApp(app);
 
   try {
