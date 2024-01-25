@@ -34,7 +34,7 @@ roleService.updateRole = async ({ id, payload }) => {
 };
 
 roleService.deleteRoles = async (ids) => {
-  const finalIds = ids.map((id) => id != "admin role id");
+  const finalIds = ids.filter((id) => id !== "65b2b19c85268d0fae05cb6e");
   await roleModel.deleteMany({ _id: { $in: finalIds } });
 }
 

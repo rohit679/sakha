@@ -11,6 +11,6 @@ const roleSchema = new mongoose.Schema({
   route_permission: {
     type: Array,
   }
-}, { statics: false, timestamps: true });
+}, { strict: false, timestamps: true });
 
 export default mongoose.model('roles', roleSchema);

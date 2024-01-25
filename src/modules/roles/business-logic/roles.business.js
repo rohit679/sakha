@@ -27,6 +27,7 @@ roleBusiness.validateRoleId = async (id) => {
     StatusCodes.NOT_FOUND,
     'Role not found'
   ));
+  return role;
 };
 
 roleBusiness.updateRoleFinalPayload = (payload, role) => {
