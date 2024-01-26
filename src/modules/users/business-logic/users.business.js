@@ -108,7 +108,7 @@ userBusiness.getSearchFilterObj = async (search) => {
   let searchFilterObj = {};
 
   if(search !== "") {
-    let regex = new RegExp({ search, 'i' });
+    let regex = new RegExp(search, 'i');
     searchFilterObj = {
       $or: [
         { first_name: regex },

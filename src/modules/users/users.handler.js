@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { httpHandler } from "../../../utils/http-handler.js";
+import { httpHandler } from "../../utils/http-handler.js";
 import { userService } from "./users.controller.js";
-import { verifyJWT } from "../../../middlewares/auth-middleware.js";
+import { verifyJWT } from "../../middleware/auth.middleware.js";
 
 const userRouter = Router();
 
