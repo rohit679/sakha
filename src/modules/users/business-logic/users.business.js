@@ -10,7 +10,7 @@ import { getSecret } from "../../../../configuration.js";
 const userBusiness = {};
 
 userBusiness.addUserFinalPayload = async (payload) => {
-  const role = await roleService.getRoleByRoleId(payload);
+  const role = await roleService.getRoleByRoleId(payload.role_id);
   assert(role, createError(
     StatusCodes.NOT_FOUND,
     'role id not found',
