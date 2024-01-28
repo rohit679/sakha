@@ -121,7 +121,7 @@ userSchema.methods.generateAccessToken = function () {
 };
 
 userSchema.methods.generateRefreshToken = function () {
-  const secret = secret();
+  const secret = getSecret();
   return jwt.sign(
     {
       id: this._id,

@@ -21,8 +21,8 @@ userService.registerUser = async (payload) => {
 
 userService.loginUser = async ({ email, username, password }) => {
   const user = await userBusiness.loginUserValidation({ email, username, password });
-  const { accessToken, refreshToken } = await userBusiness.generateAccessAndRefereshTokens(user._id);
-  const loggedInUser = await userModel.findById(user._id, { password: 0, refresh_token: 0, __v: 0 });
+  const { accessToken, refreshToken } = await userBusiness.generateAccessAndRefereshTokens(user.id);
+  const loggedInUser = await userModel.findById(user.id, { password: 0, refresh_token: 0, __v: 0 });
   return { data: loggedInUser, accessToken, refreshToken };
 };
 

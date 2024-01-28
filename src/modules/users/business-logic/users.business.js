@@ -31,7 +31,7 @@ userBusiness.addUserFinalPayload = async (payload) => {
     document_proof: payload.document_proof ? payload.document_proof : "",
     profile_pic: payload.profile_pic ? payload.profile_pic : "",
     role_id: payload.role_id,
-    role_name: payload.role_name,
+    role_name: role.role_name,
     designation: payload.designation ? payload.designation : "",
     salary: payload.salary ? payload.salary : 0,
     username: payload.username,
@@ -203,7 +203,7 @@ userBusiness.generateAccessAndRefereshTokens = async(userId) =>{
 
     user.refresh_token = refreshToken
     await user.save({ validateBeforeSave: false })
-    return {accessToken, refreshToken}
+    return { accessToken, refreshToken }
   } catch (err) {
     throw createError(
       StatusCodes.INTERNAL_SERVER_ERROR,
