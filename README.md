@@ -89,3 +89,10 @@ Sakha is a restaurant management application having multiple functionalities. Wh
 
 ### Offers
 - Schema [name, code, details[object], outletId, description, expiry, createdAt, createdBy, updatedAt, updatedBy]
+
+
+
+Doubts - 
+- Authorization 
+  - Route level [done]
+  - Resource level [?]
