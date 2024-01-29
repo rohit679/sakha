@@ -2,6 +2,7 @@ import createError from 'http-errors-lite';
 import userModel from './users.repo.js';
 import userBusiness from './business-logic/users.business.js';
 import { StatusCodes } from 'http-status-codes';
+import assert from 'assert';
 
 const userService = {};
 
@@ -44,18 +45,15 @@ userService.changeCurrentPassword = async({ id, old_password, new_password }) =>
   const user = await userModel.findById(id);
   const isPasswordCorrect = await user.isPasswordCorrect(old_password);
 
-  if(old_password === new_password) {
-    createError(
-      StatusCodes.BAD_REQUEST,
-      "Old & new password can't be same"
-    );
-  }
-  if (!isPasswordCorrect) {
-    createError(
-      StatusCodes.BAD_REQUEST,
-      "Invalid old password"
-    );
-  }
+  assert(isPasswordCorrect, createError(
+    StatusCodes.BAD_REQUEST,
+    "Invalid old password"
+  ));
+  
+  assert(old_password != new_password, createError(
+    StatusCodes.BAD_REQUEST,
+    "Old & new password can't be same"
+  ));
 
   user.password = new_password;
   await user.save({ validateBeforeSave: false });
@@ -67,7 +65,7 @@ userService.getUserById = async ({ id, loggedInUser }) => {
 };
 
 userService.getFilteredUsers = async ({ query, search, page_number, page_size, sort }) => {
-  const searchFilterObj = userBusiness.getSearchFilterObj(search);
+  const searchFilterObj = await userBusiness.getSearchFilterObj(search);
   let skip = (page_number - 1) * page_size;
   const users = await userModel.find(
     { ...query, ...searchFilterObj }, 
@@ -75,11 +73,11 @@ userService.getFilteredUsers = async ({ query, search, page_number, page_size, s
   return users;
 };
 
-userService.updateUser = async ({ id, payload }) => {
+userService.updateUser = async ({ loggedInUser, id, payload }) => {
   const user = await userBusiness.validateUserId(id);
   userBusiness.validateUpdateUserPayload(payload);
   
-  const finalPayload = userBusiness.updateUserFinalPayload(payload, user);
+  const finalPayload = userBusiness.updateUserFinalPayload(loggedInUser, payload, user);
   await userModel.findOneAndUpdate({ _id: id }, finalPayload);
   
   const updatedUser = await userModel.findById(id, { __v: 0, password: 0, refresh_token: 0 });

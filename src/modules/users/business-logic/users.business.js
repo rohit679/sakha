@@ -150,19 +150,19 @@ userBusiness.validateUpdateUserPayload = (payload) => {
   }
   if(payload.document_type) {
     assert(
-      ["adhar card", "pan card", "driving license", "voter id", "passport", "bank passbook"].includes(document_type),
+      ["adhar card", "pan card", "driving license", "voter id", "passport", "bank passbook"].includes(payload.document_type),
       createError(StatusCodes.BAD_REQUEST, 'Invalid document type')
     );
   }
   if(payload.designation) {
     assert(
-      ["outlet manager", "waiter", "cook", "watch man", "helper", "receptionist", "cleaner"].includes(designation),
+      ["subadmin", "outlet manager", "waiter", "cook", "watch man", "helper", "receptionist", "cleaner"].includes(payload.designation),
       createError(StatusCodes.BAD_REQUEST, 'Invalid designation')
     );
   }
 };
 
-userBusiness.updateUserFinalPayload = (payload, user) => {
+userBusiness.updateUserFinalPayload = (loggedInUser, payload, user) => {
   let finalPayload = {
     first_name: payload.first_name ? payload.first_name : user.first_name,
     last_name: payload.last_name ? payload.last_name : user.last_name,
@@ -176,7 +176,7 @@ userBusiness.updateUserFinalPayload = (payload, user) => {
     designation: payload.designation ? payload.designation : user.designation,
     salary: payload.salary ? payload.salary : user.salary,
     is_active: payload.is_active !== null ? payload.is_active : user.is_active,
-    last_updated_by: ""
+    last_updated_by: loggedInUser.username
   };
 
   if(payload.role_id) {

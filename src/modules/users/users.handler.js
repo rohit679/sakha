@@ -93,7 +93,7 @@ userRouter.post(
   verifyJWT,
   httpHandler(async (req, res) => {
     const { old_password, new_password } = req.body;
-    await userService.changeCurrentPassword({ id: req.user._id, old_password, new_password });
+    await userService.changeCurrentPassword({ id: req.user.id, old_password, new_password });
 
     res.send({
       error: false,
@@ -154,7 +154,7 @@ userRouter.patch(
   httpHandler(async (req, res) => {
     const { id } = req.params;
     const payload = req.body;
-    const user = await userService.updateUser({ id, payload });
+    const user = await userService.updateUser({ loggedInUser:req.user, id, payload });
     res.send({
       error: false,
       data: user,
