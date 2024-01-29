@@ -202,7 +202,7 @@ userBusiness.generateAccessAndRefereshTokens = async(userId) =>{
     const refreshToken = user.generateRefreshToken();
 
     user.refresh_token = refreshToken
-    await user.save({ validateBeforeSave: false })
+    await user.save({ validateBeforeSave: false });
     return { accessToken, refreshToken }
   } catch (err) {
     throw createError(

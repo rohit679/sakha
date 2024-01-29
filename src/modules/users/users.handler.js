@@ -47,7 +47,7 @@ userRouter.post(
   '/sign-out',
   verifyJWT,
   httpHandler(async (req, res) => {
-    await userService.logoutUser(req.user._id);
+    await userService.logoutUser(req.user.id);
     const options = {
       httpOnly: true,
       secure: true
