@@ -111,7 +111,8 @@ userSchema.methods.generateAccessToken = function () {
       email: this.email,
       username: this.username,
       first_name: this.first_name,
-      role_name: this.role_name
+      role_name: this.role_name,
+      role_rank: this.role_rank
     },
     secret.accessTokenSecret,
     {
