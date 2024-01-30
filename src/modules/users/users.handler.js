@@ -2,6 +2,7 @@ import { Router } from "express";
 import { httpHandler } from "../../utils/http-handler.js";
 import { userService } from "./users.controller.js";
 import { verifyJWT } from "../../middleware/auth.middleware.js";
+import { checkRole } from "../../middleware/checkRole.middleware.js";
 
 const userRouter = Router();
 
@@ -135,7 +136,7 @@ userRouter.post(
   verifyJWT,
   httpHandler(async (req, res) => {
     const payload = req.body;
-    const users = await userService.getFilteredUsers(payload);
+    const users = await userService.getFilteredUsers({ ...payload, loggedInUser: req.user });
     res.send({
       error: false,
       data: users,
@@ -165,15 +166,15 @@ userRouter.patch(
 );
 
 userRouter.delete(
-  '/delete',
+  '/id/:id',
   verifyJWT,
   httpHandler(async (req, res) => {
-    const { ids } = req.body;
-    await userService.deleteUsers(ids);
+    const { id } = req.params;
+    await userService.deleteUsers({ id, loggedInUser: req.user });
     res.send({
       error: false,
       data: [],
-      message: "Provided user ids deleted",
+      message: "Provided user id deleted",
       token: ""
     });
   })

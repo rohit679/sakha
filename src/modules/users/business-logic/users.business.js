@@ -32,6 +32,7 @@ userBusiness.addUserFinalPayload = async (payload) => {
     profile_pic: payload.profile_pic ? payload.profile_pic : "",
     role_id: payload.role_id,
     role_name: role.role_name,
+    role_rank: role.role_rank,
     designation: payload.designation ? payload.designation : "",
     salary: payload.salary ? payload.salary : 0,
     username: payload.username,
@@ -122,7 +123,7 @@ userBusiness.getSearchFilterObj = async (search) => {
   return searchFilterObj;
 };
 
-userBusiness.validateUserId = async (id) => {
+userBusiness.validateUserId = async ({ id, loggedInUser}) => {
   assert(ObjectId.isValid(id), createError(
     StatusCodes.BAD_REQUEST,
     'Invalid user id'
@@ -131,6 +132,11 @@ userBusiness.validateUserId = async (id) => {
   assert(user, createError(
     StatusCodes.NOT_FOUND,
     'User not found'
+  ));
+
+  assert(Number(user.role_rank) > Number(loggedInUser.user_rank) || user._id.toString() === loggedInUser.id.toString(), createError(
+    StatusCodes.UNAUTHORIZED,
+    'Access denied'
   ));
   return user;
 };
@@ -190,7 +196,7 @@ userBusiness.updateUserFinalPayload = (loggedInUser, payload, user) => {
       'Cannot create admin role'
     ));
 
-    finalPayload = { ...finalPayload, role_id: payload.role_id, role_name: role.role_name };
+    finalPayload = { ...finalPayload, role_id: payload.role_id, role_name: role.role_name, role_rank: role.role_rank };
   }
   return finalPayload;
 };

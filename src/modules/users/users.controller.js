@@ -64,17 +64,18 @@ userService.getUserById = async ({ id, loggedInUser }) => {
   return user;
 };
 
-userService.getFilteredUsers = async ({ query, search, page_number, page_size, sort }) => {
+userService.getFilteredUsers = async ({ query, search, page_number, page_size, sort, loggedInUser }) => {
+  const roleBasedFilter = { role_rank: { $gt: loggedInUser.role_rank } };
   const searchFilterObj = await userBusiness.getSearchFilterObj(search);
   let skip = (page_number - 1) * page_size;
   const users = await userModel.find(
-    { ...query, ...searchFilterObj }, 
+    { ...query, ...searchFilterObj, ...roleBasedFilter }, 
     { __v: 0, password: 0, refresh_token: 0 }).skip(skip).limit(page_size).sort(sort);
   return users;
 };
 
 userService.updateUser = async ({ loggedInUser, id, payload }) => {
-  const user = await userBusiness.validateUserId(id);
+  const user = await userBusiness.validateUserId({ id, loggedInUser });
   userBusiness.validateUpdateUserPayload(payload);
   
   const finalPayload = userBusiness.updateUserFinalPayload(loggedInUser, payload, user);
@@ -84,8 +85,9 @@ userService.updateUser = async ({ loggedInUser, id, payload }) => {
   return updatedUser;
 };
 
-userService.deleteUsers = async (ids) => {
-  await userModel.deleteMany({ _id: { $in: ids } });
+userService.deleteUsers = async ({ id, loggedInUser }) => {
+  await userBusiness.validateUserId({ id, loggedInUser });
+  await userModel.deleteOne(id);
 };
 
 export { userService };
