@@ -2,7 +2,6 @@ import { Router } from "express";
 import { httpHandler } from "../../utils/http-handler.js";
 import { userService } from "./users.controller.js";
 import { verifyJWT } from "../../middleware/auth.middleware.js";
-import { checkRole } from "../../middleware/checkRole.middleware.js";
 
 const userRouter = Router();
 
