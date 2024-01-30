@@ -97,4 +97,6 @@ Doubts -
   - Route level [done]
   - Resource level [?]
 - get update, delete user [role rank based authorization]
-- delete user [can't delete admin user check]
+
+Todo -
+- Need to make middleware to upload user profile pic & document
