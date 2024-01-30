@@ -10,6 +10,7 @@ roleBusiness.addRoleFinalPayload = (payload) => {
   return {
     role_id: Date.now().toString(),
     role_name: payload.role_name,
+    role_rank: payload.role_rank,
     route_permission: payload.route_permission ? payload.route_permission : [],
     created_by: "",
     is_active: true
@@ -33,6 +34,7 @@ roleBusiness.validateRoleId = async (id) => {
 roleBusiness.updateRoleFinalPayload = (payload, role) => {
   return {
     route_permission: payload.route_permission ? payload.route_permission : role.route_permission,
+    role_rank: payload.role_rank ? payload.role_rank : role.role_rank,
     is_active: payload.is_active !== null ? payload.is_active : role.is_active,
     last_updated_by: ""
   };
