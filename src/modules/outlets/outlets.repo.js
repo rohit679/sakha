@@ -8,26 +8,29 @@ const outletSchema = new mongoose.Schema({
   },
   outlet_manager: {
     type: Schema.Types.ObjectId,
-    ref: "users",
-    required: [true, 'Outlet manager is required']
+    ref: "users"
   },
   address: {
     type: String,
+    required: [true, 'address is required'],
     lowercase: true,
     trim: true
   },
   city: {
     type: String,
+    required: [true, 'city is required'],
     lowercase: true,
     trim: true
   },
   state: {
     type: String,
+    required: [true, 'state is required'],
     lowercase: true,
     trim: true
   },
   postal_code: {
     type: String,
+    required: [true, 'postal code is required'],
     lowercase: true,
     trim: true
   },
@@ -38,12 +41,6 @@ const outletSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
-  created_by: {
-   type: String,
-  },
-  updated_by: {
-    type: String,
-  }
 }, { strict: false, timestamps: true });
 
 export default mongoose.model('outlets', outletSchema);
