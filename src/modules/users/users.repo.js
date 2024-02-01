@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { getSecret } from "../../../configuration.js";
@@ -69,6 +69,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ["subadmin", "outlet manager", "waiter", "cook", "watch man", "helper", "receptionist", "cleaner"]
   },
+  outlet_ids: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "outlets",
+      default: []
+    }
+  ],
   salary: {
     type: Number,
     validate: {

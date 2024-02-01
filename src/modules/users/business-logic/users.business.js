@@ -20,6 +20,11 @@ userBusiness.addUserFinalPayload = async (payload) => {
     'Cannot create admin role'
   ));
 
+  assert(!(role.role_id !== '1706338422324' && payload.outlet_ids.length > 0), createError(
+    StatusCodes.BAD_REQUEST,
+    'Provided role id can not have multiple outlet ids'
+  ));
+
   return {
     first_name: payload.first_name,
     last_name: payload.last_name ? payload.last_name : "",
@@ -34,6 +39,7 @@ userBusiness.addUserFinalPayload = async (payload) => {
     role_name: role.role_name,
     role_rank: role.role_rank,
     designation: payload.designation ? payload.designation : "",
+    outlet_ids: payload.outlet_ids,
     salary: payload.salary ? payload.salary : 0,
     username: payload.username,
     password: payload.password,
@@ -184,7 +190,7 @@ userBusiness.updateUserFinalPayload = (loggedInUser, payload, user) => {
     is_active: payload.is_active !== null ? payload.is_active : user.is_active,
     last_updated_by: loggedInUser.username
   };
-
+  let updatedRoleId = user.role_id;
   if(payload.role_id) {
     const role = roleService.getRoleByRoleId(payload.role_id);
     assert(role, createError(
@@ -195,8 +201,16 @@ userBusiness.updateUserFinalPayload = (loggedInUser, payload, user) => {
       StatusCodes.BAD_REQUEST,
       'Cannot create admin role'
     ));
-
+    updatedRoleId = payload;
     finalPayload = { ...finalPayload, role_id: payload.role_id, role_name: role.role_name, role_rank: role.role_rank };
+  }
+
+  if(payload.outlet_ids) {
+    assert(!(updatedRoleId !== '1706338422324' && payload.outlet_ids.length > 0), createError(
+      StatusCodes.BAD_REQUEST,
+      'Provided role id can not have multiple outlet ids'
+    ));
+    finalPayload = { ...finalPayload, outlet_ids: payload.outlet_ids };
   }
   return finalPayload;
 };
