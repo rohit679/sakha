@@ -4,6 +4,7 @@ import { getSecret } from "./configuration.js";
 import { connectMongo } from "./src/utils/connect-db.js";
 import roleModule from "./src/modules/roles/index.js";
 import userModule from "./src/modules/users/index.js";
+import outletModule from "./src/modules/outlets/index.js";
 
 (async () => {
   config({ path: '.env' });
@@ -19,6 +20,7 @@ import userModule from "./src/modules/users/index.js";
 
   roleModule.init(app);
   userModule.init(app);
+  outletModule.init(app);
   finishApp(app);
 
   try {
