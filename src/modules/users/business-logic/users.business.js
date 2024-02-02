@@ -162,6 +162,8 @@ userBusiness.validateUserId = async ({ id, loggedInUser}) => {
   return user;
 };
 
+userBusiness.getUser = async (id) => await userModel.findById(id);
+
 userBusiness.validateUpdateUserPayload = (payload) => {
   if(payload.phone) {
     assert(
