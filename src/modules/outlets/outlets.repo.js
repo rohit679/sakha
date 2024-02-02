@@ -4,7 +4,6 @@ const outletSchema = new mongoose.Schema({
   outlet_owner: {
     type: Schema.Types.ObjectId,
     ref: "users",
-    required: [true, 'Outlet owner is required']
   },
   outlet_manager: {
     type: Schema.Types.ObjectId,
