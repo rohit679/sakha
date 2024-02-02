@@ -5,6 +5,7 @@ import assert from "assert";
 import jwt from "jsonwebtoken";
 import userModel from "../users.repo.js";
 import { roleService } from "../../roles/roles.controller.js";
+import outletBusiness from "../../outlets/business-logic/outlets.business.js";
 import { getSecret } from "../../../../configuration.js";
 
 const userBusiness = {};
@@ -20,10 +21,24 @@ userBusiness.addUserFinalPayload = async (payload) => {
     'Cannot create admin role'
   ));
 
-  assert(!(role.role_id !== '1706338422324' && payload.outlet_ids.length > 0), createError(
-    StatusCodes.BAD_REQUEST,
-    'Provided role id can not have multiple outlet ids'
-  ));
+  if(payload.outlet_ids) {
+    assert(!(role.role_id !== '1706338422324' && payload.outlet_ids.length > 0), createError(
+      StatusCodes.BAD_REQUEST,
+      'Provided role id can not have multiple outlet ids'
+    ));
+
+    payload.outlet_ids.forEach(async (outlet_id) => {
+      assert(ObjectId.isValid(outlet_id), createError(
+        StatusCodes.BAD_REQUEST,
+        'Invalid outlet id'
+      ));
+      let outlet = await outletBusiness.getOutlet(outlet_id);
+      assert(outlet, createError(
+        StatusCodes.NOT_FOUND,
+        'Outlet id is not found'
+      ))
+    });
+  }
 
   return {
     first_name: payload.first_name,
@@ -39,7 +54,7 @@ userBusiness.addUserFinalPayload = async (payload) => {
     role_name: role.role_name,
     role_rank: role.role_rank,
     designation: payload.designation ? payload.designation : "",
-    outlet_ids: payload.outlet_ids,
+    outlet_ids: payload.outlet_ids ? payload.outlet_ids : [],
     salary: payload.salary ? payload.salary : 0,
     username: payload.username,
     password: payload.password,
@@ -210,6 +225,19 @@ userBusiness.updateUserFinalPayload = (loggedInUser, payload, user) => {
       StatusCodes.BAD_REQUEST,
       'Provided role id can not have multiple outlet ids'
     ));
+
+    payload.outlet_ids.forEach(async (outlet_id) => {
+      assert(ObjectId.isValid(outlet_id), createError(
+        StatusCodes.BAD_REQUEST,
+        'Invalid outlet id'
+      ));
+      let outlet = await outletBusiness.getOutlet(outlet_id);
+      assert(outlet, createError(
+        StatusCodes.NOT_FOUND,
+        'Outlet id is not found'
+      ))
+    });
+    
     finalPayload = { ...finalPayload, outlet_ids: payload.outlet_ids };
   }
   return finalPayload;

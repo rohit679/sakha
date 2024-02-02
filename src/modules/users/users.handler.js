@@ -2,6 +2,7 @@ import { Router } from "express";
 import { httpHandler } from "../../utils/http-handler.js";
 import { userService } from "./users.controller.js";
 import { verifyJWT } from "../../middleware/auth.middleware.js";
+import { checkRole } from "../../middleware/checkRole.middleware.js"
 
 const userRouter = Router();
 
@@ -133,6 +134,7 @@ userRouter.get(
 userRouter.post(
   '/',
   verifyJWT,
+  checkRole(['1706209692929', '1706338422324', '1706338446567']),
   httpHandler(async (req, res) => {
     const payload = req.body;
     const users = await userService.getFilteredUsers({ ...payload, loggedInUser: req.user });
