@@ -40,6 +40,13 @@ userBusiness.addUserFinalPayload = async (payload) => {
     });
   }
 
+  if(payload.designation) {
+    assert(['1706338422324', '1706338446567'].includes(payload.designation) && payload.designation === role.role_name, createError(
+      StatusCodes.BAD_REQUEST,
+      'Invalid designation for provided role id'
+    ));
+  }
+
   return {
     first_name: payload.first_name,
     last_name: payload.last_name ? payload.last_name : "",
@@ -192,7 +199,33 @@ userBusiness.validateUpdateUserPayload = (payload) => {
 };
 
 userBusiness.updateUserFinalPayload = (loggedInUser, payload, user) => {
+  let updatedRoleInfo = {
+    role_id: user.role_id,
+    role_name: user.role_name,
+    role_rank: user.role_rank
+  };
+  if(payload.role_id) {
+    const role = roleService.getRoleByRoleId(payload.role_id);
+    assert(role, createError(
+      StatusCodes.NOT_FOUND,
+      'role id not found'
+    ));
+    assert(role.role_name === "admin", createError(
+      StatusCodes.BAD_REQUEST,
+      'Cannot create admin role'
+    ));
+    updatedRoleInfo = { role_id: payload.role_id, role_name: role.role_name, role_rank: role.role_rank };
+  }
+
+  if(payload.designation) {
+    assert(['1706338422324', '1706338446567'].includes(payload.designation) && payload.designation === updatedRoleInfo.role_name, createError(
+      StatusCodes.BAD_REQUEST,
+      'Invalid designation for provided role id'
+    ));
+  }
+
   let finalPayload = {
+    ...updatedRoleInfo,
     first_name: payload.first_name ? payload.first_name : user.first_name,
     last_name: payload.last_name ? payload.last_name : user.last_name,
     phone: payload.phone ? payload.phone : user.phone,
@@ -207,23 +240,9 @@ userBusiness.updateUserFinalPayload = (loggedInUser, payload, user) => {
     is_active: payload.is_active !== null ? payload.is_active : user.is_active,
     last_updated_by: loggedInUser.username
   };
-  let updatedRoleId = user.role_id;
-  if(payload.role_id) {
-    const role = roleService.getRoleByRoleId(payload.role_id);
-    assert(role, createError(
-      StatusCodes.NOT_FOUND,
-      'role id not found'
-    ));
-    assert(role.role_name === "admin", createError(
-      StatusCodes.BAD_REQUEST,
-      'Cannot create admin role'
-    ));
-    updatedRoleId = payload;
-    finalPayload = { ...finalPayload, role_id: payload.role_id, role_name: role.role_name, role_rank: role.role_rank };
-  }
 
   if(payload.outlet_ids) {
-    assert(!(updatedRoleId !== '1706338422324' && payload.outlet_ids.length > 0), createError(
+    assert(!(updatedRoleInfo.role_id !== '1706338422324' && payload.outlet_ids.length > 0), createError(
       StatusCodes.BAD_REQUEST,
       'Provided role id can not have multiple outlet ids'
     ));
@@ -242,6 +261,7 @@ userBusiness.updateUserFinalPayload = (loggedInUser, payload, user) => {
     
     finalPayload = { ...finalPayload, outlet_ids: payload.outlet_ids };
   }
+
   return finalPayload;
 };
 
