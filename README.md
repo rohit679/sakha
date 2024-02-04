@@ -100,3 +100,4 @@ Doubts -
 
 Todo -
 - Need to make middleware to upload user profile pic & document
+- Need to centralize all role ids to env file
