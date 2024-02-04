@@ -21,31 +21,41 @@ userBusiness.addUserFinalPayload = async (payload) => {
     'Cannot create admin role'
   ));
 
-  if(payload.outlet_ids) {
-    assert(!(role.role_id !== '1706338422324' && payload.outlet_ids.length > 0), createError(
+  if(payload.outlet_ids && payload.outlet_ids.length) {
+    assert(['1706209692929', '1706338422324', '1706338446567'].includes(payload.role_id), createError(
       StatusCodes.BAD_REQUEST,
-      'Provided role id can not have multiple outlet ids'
-    ));
-
-    payload.outlet_ids.forEach(async (outlet_id) => {
-      assert(ObjectId.isValid(outlet_id), createError(
+      'Provided role id can not have outlet ids'
+    ))
+    if(role.role_id === '1706338446567') {
+      assert(payload.outlet_ids.length === 1, createError(
         StatusCodes.BAD_REQUEST,
-        'Invalid outlet id'
+        'Provided role id can not have multiple outlet ids'
       ));
-      let outlet = await outletBusiness.getOutlet(outlet_id);
-      assert(outlet, createError(
-        StatusCodes.NOT_FOUND,
-        'Outlet id is not found'
-      ))
-    });
+    }
+    
+    // await payload.outlet_ids.map(async (outlet_id) => {
+    //   try {
+    //     if(!ObjectId.isValid(outlet_id)) { 
+    //       throw createError(
+    //         StatusCodes.BAD_REQUEST,
+    //         'Invalid outlet id'
+    //       );
+    //     }
+    //     console.log("HII");
+    //     let outlet = await outletBusiness.getOutlet(outlet_id);
+    //     assert(outlet, createError(
+    //       StatusCodes.NOT_FOUND,
+    //       'Outlet id is not found'
+    //     ));
+    //   } catch (err) {
+    //     console.error("error1: ", err);
+    //   }
+      
+    // });
   }
-
-  if(payload.designation) {
-    assert(['1706338422324', '1706338446567'].includes(payload.designation) && payload.designation === role.role_name, createError(
-      StatusCodes.BAD_REQUEST,
-      'Invalid designation for provided role id'
-    ));
-  }
+  let designation = "";
+  if(payload.designation && ['1706338422324', '1706338446567'].includes(payload.role_id))
+    designation = role.role_name;
 
   return {
     first_name: payload.first_name,
@@ -60,7 +70,7 @@ userBusiness.addUserFinalPayload = async (payload) => {
     role_id: payload.role_id,
     role_name: role.role_name,
     role_rank: role.role_rank,
-    designation: payload.designation ? payload.designation : "",
+    designation,
     outlet_ids: payload.outlet_ids ? payload.outlet_ids : [],
     salary: payload.salary ? payload.salary : 0,
     username: payload.username,
