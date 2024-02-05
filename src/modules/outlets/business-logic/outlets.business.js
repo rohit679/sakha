@@ -10,7 +10,7 @@ import { getSecret } from "../../../../configuration.js";
 
 const outletBusiness = {};
 
-outletBusiness.getOutlet = async () => await outletModel.findById(id);
+outletBusiness.getOutlet = async (id) => await outletModel.findById(id);
 
 outletBusiness.addOutletFinalPayload = async ({ payload, loggedInUser }) => {
   if(payload.outlet_owner) {
@@ -116,7 +116,7 @@ outletBusiness.validateUpdateOutletPayload = async (payload) => {
 outletBusiness.updateOutletFinalPayload = (loggedInUser, payload, outlet) => {
   let finalPayload = {
     outlet_owner: payload.outlet_owner ? payload.outlet_owner : outlet.outlet_owner,
-    outlet_manager: payload.outlet_manager ? payload.outlet_manager : outlet_manager,
+    outlet_manager: payload.outlet_manager ? payload.outlet_manager : outlet.outlet_manager,
     address: payload.address ? payload.address : outlet.address,
     city: payload.city ? payload.city : outlet.city,
     state: payload.state ? payload.state : outlet.state,
