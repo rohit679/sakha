@@ -1,5 +1,5 @@
 # sakha
-Sakha is a restaurant management application having multiple functionalities. Which makes Sakha an extra ordinary tool to ease out my dream.
+  Sakha is a restaurant management application having multiple functionalities. Which makes Sakha an extra ordinary tool to ease out my dream.
 
 ## Functionalities
 - User Management
@@ -60,14 +60,17 @@ Sakha is a restaurant management application having multiple functionalities. Wh
 ## Modules
 
 ### Users
-- Schema [firstName, lastName, phone, email, roleId, outletId, profilePic, documentProof, salary, DOJ, DOE, password, isActive, createdAt, createdBy, updatedAt, updatedBy]
+- Schema [firstName, lastName, phone, email, roleId, profilePic, documentProof, salary, DOJ, DOE, password, isActive, createdAt, createdBy, updatedAt, updatedBy]
 - Salary History [User wise]
 
 ### Roles
 - Schema [roleName, permissions, createdAt, createdBy, updatedAt, updatedBy]
 
 ### Outlets
-- Schema [address, city, state, postalCode, openingDate, createdAt, createdBy, updatedAt, updatedBy]
+- Schema [outletOwner, outletManager, address, city, state, postalCode, openingDate,  , createdAt, createdBy, updatedAt, updatedBy]
+
+### Members
+- Schema [userId, userName, roleId, roleName, designation, outletId, isActive]
 
 ### Menu
 - Schema [name, cuisine[Indian/Italian], subcuisine[South Indian], pricing[object(qtr/half/full)], ingredients[array], dishType[Veg/Non Veg], isCombo, category[main course/starter/beverage/dessert/bread/rice], subCategory[], subItems[array], isGravyDish, taste[spicy/sweet], isBestSeller, description, createdAt, createdBy, updatedAt, updatedBy]
@@ -90,7 +93,8 @@ Sakha is a restaurant management application having multiple functionalities. Wh
 ### Offers
 - Schema [name, code, details[object], outletId, description, expiry, createdAt, createdBy, updatedAt, updatedBy]
 
-
+### Expenditure
+- Schema []
 
 Doubts - 
 - Authorization 
