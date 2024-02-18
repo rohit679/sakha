@@ -106,3 +106,145 @@ Todo -
 - Need to make middleware to upload user profile pic & document
 - Need to centralize all role ids to env file
 - Nothing
+
+
+
+* Features -
+- Take away, dine in both will be applicable
+- There will be web & mobile application for the admin panel
+- There will be an order generating app as well via QR code
+- oAuth authentication system as well
+
+* Modules -
+
+USERS -
+- name
+- designation [admin, subadmin, outlet manager, waiter, cook, watchman, helper, receptionist,cleaner]
+- phone
+- email
+- documents
+- outlet_ids
+- salary
+- profile_pic
+- address
+- role_id
+- role_name
+- user_name
+- password
+
+OUTLET DETAILS -
+- address
+- policy
+- opening_date
+- owner_id
+- outlet_email
+- outlet_phone
+- documents
+- opening_time
+- closing_time
+- is_open
+- is_active
+
+LOGS -
+- updated_by
+- updated_at
+- description
+- fields_updated
+- old_record
+- new_record
+- updated_id
+- module_name
+
+DISH CATEGORY -
+- name
+- is_active
+- outlet_id
+- created/updated timestamp
+
+DISH SUBCATEGORY -
+- name
+- is_active
+- outlet_id
+- created/updated timestamp
+
+DISH -
+- name
+- type [veg/non-veg]
+- cuisine [Indian, Italian, Chinese]
+- regional_cuisine [South Indian, North Indian]
+- category_id
+- subcategory_id
+- dish_taste [spicy, sweet, sour]
+- ingredients
+- price [quarter, half, full]
+- description
+- outlet_id
+- created_by
+- created_at
+
+KOT -
+- bill_no
+- table_no
+- item_details [name, quantity]
+- description
+- timestamp
+
+REVIEW -
+- order_id
+- customer_id
+- description
+- rating
+- timestamp
+
+CUSTOMER -
+- name
+- phone
+- timestamp
+
+OFFER -
+- outlet_id
+- name
+- on_dish
+- dish_id
+- offer_type [flat, percent, flat & percent, bogo]
+- offer_detail [min_value, max_value, min_percent, max_percent, paid_dish_count, free_dish_count]
+- description
+- offer_expiry
+- is_active
+- timestamp
+
+ORDER -
+- outlet_id
+- item_details [name, quantity, price]
+- kot_ids
+- bills [sub_total, total_discount, cgst_tax, sgst_tax, service_charge, packaging_charge, delivery_charge, pay_price]
+- applied_offer_ids
+- customer_id
+- review_id
+- is_dine_in
+- status [pending, completed, cancelled]
+- timestamp
+
+VENDOR -
+- outlet_ids
+- name
+- email
+- phone
+- timestamp
+
+EXPENDITURE -
+- name
+- quantity
+- price_per_item
+- total_price
+- outlet_id
+- purchased_date
+- timestamp
+
+EXPENSE -
+- title
+- description
+- expense_type [expenditure, maintenance, salary, inventory, tax]
+- user_id
+- outlet_id
+- timestamp
